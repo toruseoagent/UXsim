@@ -48,7 +48,21 @@ Changed the C++ vehicle update loop in non-deterministic mode to iterate over th
 | k1 std | 0.007 | 0.005 | 0.004 |
 | Fail rate | 75% | 29% | 22% |
 
-All 172 C++ mode tests pass. No performance regression observed.
+All 172 C++ mode tests pass.
+
+## Performance benchmark
+
+Benchmark: 11x11 grid network (121 nodes, 440 links), deltan=3, tmax=7200, random_seed=0.
+Single-thread (`taskset -c 0`), 10 runs each, median reported.
+
+| | Before fix | After fix | Change |
+|---|-----------|-----------|--------|
+| Median | 3.484s | 3.005s | **-13.7% (faster)** |
+| Std | 0.298s | 0.322s | (comparable) |
+| Min | 3.364s | 2.889s | -14.1% |
+| Max | 4.197s | 3.862s | -8.0% |
+
+The fix is slightly **faster** than the original. The old `active_vehicles` iteration used swap-and-pop with a while loop (pointer chasing, branch misprediction on removal). The new `vehicles` iteration is a simple sequential scan over a contiguous vector with a state check, which has better cache locality.
 
 ## Files changed
 
