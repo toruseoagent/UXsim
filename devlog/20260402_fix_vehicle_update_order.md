@@ -64,6 +64,26 @@ Single-thread (`taskset -c 0`), 10 runs each, median reported.
 
 The fix is slightly **faster** than the original. The old `active_vehicles` iteration used swap-and-pop with a while loop (pointer chasing, branch misprediction on removal). The new `vehicles` iteration is a simple sequential scan over a contiguous vector with a state check, which has better cache locality.
 
+## History: how `active_vehicles` was introduced
+
+The `active_vehicles` mechanism was introduced on 2026-04-01 in commit `7a73f36` ("Optimize C++ engine Round 2: active indexing, log reserve, no_cyclic O(1)"), merged to upstream via PR #298.
+
+The optimization targeted the **vehicle update loop**, which at the time accounted for 75.8% of C++ simulation time. The idea was straightforward: instead of iterating all vehicles every timestep (including thousands that have already finished their trip), maintain a separate list of only the "active" (HOME/WAIT/RUN) vehicles. When a vehicle finishes its trip (`end_trip()`), it is removed from this list using O(1) swap-and-pop -- swap the removed element with the last element, then pop the back.
+
+This optimization was sound in principle: skip unnecessary work by not visiting completed vehicles. And it did contribute to a measurable speedup as part of a larger optimization batch (4.97s → 4.43s median, -10.9%).
+
+The problem was an unintended side effect: swap-and-pop changes the **iteration order** of the list. Each time a vehicle completes its trip, the order of remaining vehicles in the list is perturbed. This meant that the C++ vehicle update loop visited vehicles in a different order than Python (which always iterates by vehicle ID), causing the subtle diverge test instability described above.
+
+### Why the simple approach is actually faster
+
+Somewhat counterintuitively, reverting to a simple scan over all vehicles (with a state check to skip finished ones) turned out to be **13.7% faster** than the `active_vehicles` approach. This is likely because:
+
+1. **Cache locality**: `vehicles` is a contiguous vector allocated once. Scanning it sequentially is very cache-friendly. `active_vehicles` suffered from pointer indirection and cache misses due to the swap-and-pop reordering.
+2. **Branch prediction**: The state check (`if (state == HOME || WAIT || RUN)`) is highly predictable -- early in the simulation nearly all vehicles are active, and the ratio changes slowly.
+3. **No bookkeeping overhead**: Maintaining `active_index`, updating it on swap, and bounds-checking on removal all added per-vehicle overhead that the simple scan avoids.
+
+The `active_vehicles` list is still used for the car-following loop (where the order does not affect results), so it still provides some benefit there.
+
 ## Files changed
 
 - `uxsim/trafficpp/traffi.cpp`: vehicle update loop order, noise parameter fix
