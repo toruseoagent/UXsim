@@ -93,6 +93,16 @@ python3 -m pytest tests/ --cpp --reruns 5 -q --tb=short
 - PRブランチはorigin/mainベースで作り，mainの変更をcherry-pickしてフォーク専用ファイルをreset/除外する
 - PRコメントの末尾に以下を記載：Part of https://github.com/toruseo/UXsim/issues/297
 
+### PR送信前の必須チェック
+
+PRを送信・更新する前に，以下を**必ず**実行すること（省略不可）：
+
+1. **リグレッションテスト**: `python3 -m pytest tests/test_cpp_mode.py --reruns 5 -q --tb=short` — 全テスト通過を確認
+2. **妥当性検証**: Python版とC++版で同一シナリオを実行し，主要な出力指標（TTT等）が数%以内で一致することを確認．十分な規模・反復回数で検証すること
+3. **精密ベンチマーク**: 1スレッド（OMP_NUM_THREADS=1）で複数seed計測．中央値+stdを記録．スピードアップ倍率をPR本文に記載．**ベンチ実行中は他のプロセスを走らせない（CPUを占有して計測がぶれるため）**
+
+これらの結果が揃ってからPRを送信またはPR更新する．途中段階でのPR送信は不可．
+
 ## フォーク同期の運用
 
 ### 原則
