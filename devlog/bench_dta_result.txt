@@ -1,0 +1,30 @@
+======================================================================
+DTA Solver Benchmark (Precise): Python vs C++
+  10 trials, single thread (OMP_NUM_THREADS=1)
+  Scenario: 9x9 grid, deltan=10, tmax=4800, max_iter=10
+  6840 vehicles, 288 links, 81 nodes
+======================================================================
+
+--- DUE ---
+  Python  : median=24.40s (std=3.97), TTT median=6884350
+  C++     : median= 3.53s (std=0.25), TTT median=6695700
+  Speedup : 6.91x
+
+--- DSO (D2D) ---
+  Python  : median=28.52s (std=4.87), TTT median=5815750
+  C++     : median= 3.45s (std=0.18), TTT median=5773100
+  Speedup : 8.26x
+
+======================================================================
+Architecture
+======================================================================
+- New files: dta_solver.h, dta_solver.cpp (separate from traffi.cpp)
+- C++ batch functions: batch_enforce_routes, route_swap_due, route_swap_dso
+- DTAsolvers.py: cpp parameter added to SolverDUE.solve() and SolverDSO_D2D.solve()
+- traffi.h/cpp: unchanged (no impact on normal simulation)
+
+======================================================================
+Regression Tests
+======================================================================
+- 199 passed, 0 failed (7 rerun)
+- All existing + new DTA tests passing

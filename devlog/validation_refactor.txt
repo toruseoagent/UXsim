@@ -1,0 +1,561 @@
+
+============================================================
+Running DUE (Python), seed=0, max_iter=100
+============================================================
+solving DUE...
+DUE summary:
+ total travel time: initial 7131500.0 -> average of last 25 iters 6005840.0
+ number of potential route changes: initial 4370.0 -> average of last 25 iters 3151.6
+ route travel cost gap: initial 152.0 -> average of last 25 iters 32.7
+ computation time: 70.1 seconds
+results:
+ average speed:	 10.3 m/s
+ number of completed trips:	 6840 / 6840
+ total travel time:		 6042900.0 s
+ average travel time of trips:	 883.5 s
+ average delay of trips:	 350.1 s
+ delay ratio:			 0.396
+ total distance traveled:	 58180500.0 m
+
+Elapsed: 70.11s
+Final TTT (iter 99): 6042900.0
+Last 20 iter avg TTT: 6054600.0
+Min TTT: 5723400.0 (iter 76)
+W_intermid_solution TTT: 6042900.0
+Trip completed: 6840
+
+TTT per iteration:
+  iter   0: TTT=7131500.0
+  iter   1: TTT=7012000.0
+  iter   2: TTT=7163000.0
+  iter   3: TTT=7092900.0
+  iter   4: TTT=7106800.0
+  iter   5: TTT=7166200.0
+  iter   6: TTT=6645700.0
+  iter   7: TTT=6649600.0
+  iter   8: TTT=6616800.0
+  iter   9: TTT=6763000.0
+  iter  10: TTT=7005500.0
+  iter  11: TTT=7001100.0
+  iter  12: TTT=6911200.0
+  iter  13: TTT=6696000.0
+  iter  14: TTT=7145400.0
+  iter  15: TTT=6776000.0
+  iter  16: TTT=6826700.0
+  iter  17: TTT=6676700.0
+  iter  18: TTT=6503700.0
+  iter  19: TTT=6769900.0
+  iter  20: TTT=6576800.0
+  iter  21: TTT=6472100.0
+  iter  22: TTT=6724800.0
+  iter  23: TTT=6567100.0
+  iter  24: TTT=6235500.0
+  iter  25: TTT=6284200.0
+  iter  26: TTT=6276900.0
+  iter  27: TTT=6431200.0
+  iter  28: TTT=6525900.0
+  iter  29: TTT=6162100.0
+  iter  30: TTT=6604500.0
+  iter  31: TTT=6385100.0
+  iter  32: TTT=6140100.0
+  iter  33: TTT=6117800.0
+  iter  34: TTT=6086100.0
+  iter  35: TTT=6067500.0
+  iter  36: TTT=6171200.0
+  iter  37: TTT=6249800.0
+  iter  38: TTT=6160400.0
+  iter  39: TTT=6125700.0
+  iter  40: TTT=6138000.0
+  iter  41: TTT=6074500.0
+  iter  42: TTT=5994100.0
+  iter  43: TTT=5967600.0
+  iter  44: TTT=5994400.0
+  iter  45: TTT=6133000.0
+  iter  46: TTT=6011000.0
+  iter  47: TTT=5945700.0
+  iter  48: TTT=6212900.0
+  iter  49: TTT=5920300.0
+  iter  50: TTT=5885300.0
+  iter  51: TTT=5984200.0
+  iter  52: TTT=5741100.0
+  iter  53: TTT=5766600.0
+  iter  54: TTT=5992100.0
+  iter  55: TTT=5926800.0
+  iter  56: TTT=6028400.0
+  iter  57: TTT=6096200.0
+  iter  58: TTT=5821500.0
+  iter  59: TTT=5918500.0
+  iter  60: TTT=5792800.0
+  iter  61: TTT=5913700.0
+  iter  62: TTT=5734000.0
+  iter  63: TTT=5823500.0
+  iter  64: TTT=5932100.0
+  iter  65: TTT=5871500.0
+  iter  66: TTT=5870200.0
+  iter  67: TTT=5895200.0
+  iter  68: TTT=5940500.0
+  iter  69: TTT=5782700.0
+  iter  70: TTT=6078600.0
+  iter  71: TTT=6428100.0
+  iter  72: TTT=5930500.0
+  iter  73: TTT=5983300.0
+  iter  74: TTT=5757000.0
+  iter  75: TTT=5770700.0
+  iter  76: TTT=5723400.0
+  iter  77: TTT=5797500.0
+  iter  78: TTT=5833600.0
+  iter  79: TTT=5928800.0
+  iter  80: TTT=6114500.0
+  iter  81: TTT=6039800.0
+  iter  82: TTT=5832500.0
+  iter  83: TTT=5813500.0
+  iter  84: TTT=5939500.0
+  iter  85: TTT=5886900.0
+  iter  86: TTT=6197200.0
+  iter  87: TTT=5881900.0
+  iter  88: TTT=6103000.0
+  iter  89: TTT=6177400.0
+  iter  90: TTT=6093100.0
+  iter  91: TTT=6242900.0
+  iter  92: TTT=6077600.0
+  iter  93: TTT=6144200.0
+  iter  94: TTT=6192400.0
+  iter  95: TTT=6042600.0
+  iter  96: TTT=6147700.0
+  iter  97: TTT=6084000.0
+  iter  98: TTT=6038400.0
+  iter  99: TTT=6042900.0
+
+============================================================
+Running DUE (C++), seed=0, max_iter=100
+============================================================
+solving DUE...
+DUE summary:
+ total travel time: initial 6777800.0 -> average of last 25 iters 5726976.0
+ number of potential route changes: initial 3860.0 -> average of last 25 iters 2948.4
+ route travel cost gap: initial 108.4 -> average of last 25 iters 27.1
+ computation time: 9.3 seconds
+results:
+ average speed:	 0.0 m/s
+ number of completed trips:	 6840 / 6840
+ total travel time:		 5742900.0 s
+ average travel time of trips:	 839.6 s
+ average delay of trips:	 306.3 s
+ delay ratio:			 0.365
+ total distance traveled:	 57159750.0 m
+
+Elapsed: 9.34s
+Final TTT (iter 99): 5742900.0
+Last 20 iter avg TTT: 5709555.0
+Min TTT: 5490200.0 (iter 82)
+W_intermid_solution TTT: 5742900.0
+Trip completed: 6840
+
+TTT per iteration:
+  iter   0: TTT=6777800.0
+  iter   1: TTT=6765600.0
+  iter   2: TTT=6917400.0
+  iter   3: TTT=6759100.0
+  iter   4: TTT=7143600.0
+  iter   5: TTT=6890700.0
+  iter   6: TTT=6660200.0
+  iter   7: TTT=6595900.0
+  iter   8: TTT=6770600.0
+  iter   9: TTT=6809000.0
+  iter  10: TTT=6705100.0
+  iter  11: TTT=6675300.0
+  iter  12: TTT=6635200.0
+  iter  13: TTT=6473600.0
+  iter  14: TTT=6511200.0
+  iter  15: TTT=6536200.0
+  iter  16: TTT=6473800.0
+  iter  17: TTT=6193100.0
+  iter  18: TTT=6016500.0
+  iter  19: TTT=6212900.0
+  iter  20: TTT=5984700.0
+  iter  21: TTT=5974900.0
+  iter  22: TTT=5933300.0
+  iter  23: TTT=5791700.0
+  iter  24: TTT=5886400.0
+  iter  25: TTT=5905500.0
+  iter  26: TTT=5872900.0
+  iter  27: TTT=5859700.0
+  iter  28: TTT=6087600.0
+  iter  29: TTT=5976700.0
+  iter  30: TTT=5757400.0
+  iter  31: TTT=5861600.0
+  iter  32: TTT=5848700.0
+  iter  33: TTT=6165600.0
+  iter  34: TTT=5983000.0
+  iter  35: TTT=5959900.0
+  iter  36: TTT=5846800.0
+  iter  37: TTT=5770600.0
+  iter  38: TTT=5827100.0
+  iter  39: TTT=5924000.0
+  iter  40: TTT=5864900.0
+  iter  41: TTT=5944800.0
+  iter  42: TTT=5854400.0
+  iter  43: TTT=5809000.0
+  iter  44: TTT=5924000.0
+  iter  45: TTT=5910900.0
+  iter  46: TTT=5664800.0
+  iter  47: TTT=5894000.0
+  iter  48: TTT=5784800.0
+  iter  49: TTT=5704800.0
+  iter  50: TTT=5637800.0
+  iter  51: TTT=5626300.0
+  iter  52: TTT=5711000.0
+  iter  53: TTT=5770200.0
+  iter  54: TTT=5851800.0
+  iter  55: TTT=5662200.0
+  iter  56: TTT=5753300.0
+  iter  57: TTT=5690800.0
+  iter  58: TTT=5720300.0
+  iter  59: TTT=5857900.0
+  iter  60: TTT=5876400.0
+  iter  61: TTT=5883000.0
+  iter  62: TTT=5837800.0
+  iter  63: TTT=5860900.0
+  iter  64: TTT=5849600.0
+  iter  65: TTT=5785600.0
+  iter  66: TTT=5761100.0
+  iter  67: TTT=5807600.0
+  iter  68: TTT=5838900.0
+  iter  69: TTT=5883000.0
+  iter  70: TTT=5819200.0
+  iter  71: TTT=5843200.0
+  iter  72: TTT=5681300.0
+  iter  73: TTT=5969800.0
+  iter  74: TTT=5974200.0
+  iter  75: TTT=5921300.0
+  iter  76: TTT=5809900.0
+  iter  77: TTT=5833900.0
+  iter  78: TTT=5691400.0
+  iter  79: TTT=5726800.0
+  iter  80: TTT=5764300.0
+  iter  81: TTT=5500700.0
+  iter  82: TTT=5490200.0
+  iter  83: TTT=5552700.0
+  iter  84: TTT=5650200.0
+  iter  85: TTT=5634100.0
+  iter  86: TTT=5851300.0
+  iter  87: TTT=5862200.0
+  iter  88: TTT=5805200.0
+  iter  89: TTT=5759500.0
+  iter  90: TTT=5666800.0
+  iter  91: TTT=5688700.0
+  iter  92: TTT=5756100.0
+  iter  93: TTT=5737100.0
+  iter  94: TTT=5707200.0
+  iter  95: TTT=5724100.0
+  iter  96: TTT=5774200.0
+  iter  97: TTT=5760700.0
+  iter  98: TTT=5762900.0
+  iter  99: TTT=5742900.0
+
+============================================================
+Running DSO_D2D (Python), seed=0, max_iter=100
+============================================================
+solving DSO...
+DSO summary:
+ total travel time: initial 7131500.0 -> minimum 5335300.0
+ number of potential route changes: initial 5740.0 -> minimum 4870.0
+ route marginal travel time gap: initial 5250.4 -> minimum 312.3
+ computation time: 97.0 seconds
+results:
+ average speed:	 0.0 m/s
+ number of completed trips:	 6840 / 6840
+ total travel time:		 5335300.0 s
+ average travel time of trips:	 780.0 s
+ average delay of trips:	 246.7 s
+ delay ratio:			 0.316
+ total distance traveled:	 60575000.0 m
+
+Elapsed: 97.00s
+Final TTT (iter 99): 5412400.0
+Last 20 iter avg TTT: 5430905.0
+Min TTT: 5335300.0 (iter 62)
+W_intermid_solution TTT: 5335300.0
+Trip completed: 6840
+
+TTT per iteration:
+  iter   0: TTT=7131500.0
+  iter   1: TTT=6825100.0
+  iter   2: TTT=6875300.0
+  iter   3: TTT=6377000.0
+  iter   4: TTT=6414800.0
+  iter   5: TTT=6115100.0
+  iter   6: TTT=5986400.0
+  iter   7: TTT=5903900.0
+  iter   8: TTT=5807300.0
+  iter   9: TTT=5812600.0
+  iter  10: TTT=5747500.0
+  iter  11: TTT=5690100.0
+  iter  12: TTT=5659800.0
+  iter  13: TTT=5624700.0
+  iter  14: TTT=5567100.0
+  iter  15: TTT=5554100.0
+  iter  16: TTT=5550000.0
+  iter  17: TTT=5512300.0
+  iter  18: TTT=5496000.0
+  iter  19: TTT=5504700.0
+  iter  20: TTT=5474500.0
+  iter  21: TTT=5480300.0
+  iter  22: TTT=5511100.0
+  iter  23: TTT=5493400.0
+  iter  24: TTT=5483000.0
+  iter  25: TTT=5456000.0
+  iter  26: TTT=5520500.0
+  iter  27: TTT=5472500.0
+  iter  28: TTT=5498900.0
+  iter  29: TTT=5479600.0
+  iter  30: TTT=5433700.0
+  iter  31: TTT=5443000.0
+  iter  32: TTT=5431000.0
+  iter  33: TTT=5477700.0
+  iter  34: TTT=5454300.0
+  iter  35: TTT=5447700.0
+  iter  36: TTT=5433600.0
+  iter  37: TTT=5406600.0
+  iter  38: TTT=5413300.0
+  iter  39: TTT=5452100.0
+  iter  40: TTT=5428800.0
+  iter  41: TTT=5394100.0
+  iter  42: TTT=5402900.0
+  iter  43: TTT=5393300.0
+  iter  44: TTT=5399800.0
+  iter  45: TTT=5386000.0
+  iter  46: TTT=5455100.0
+  iter  47: TTT=5416300.0
+  iter  48: TTT=5454200.0
+  iter  49: TTT=5432900.0
+  iter  50: TTT=5418400.0
+  iter  51: TTT=5416600.0
+  iter  52: TTT=5427000.0
+  iter  53: TTT=5402300.0
+  iter  54: TTT=5428200.0
+  iter  55: TTT=5346400.0
+  iter  56: TTT=5403200.0
+  iter  57: TTT=5381600.0
+  iter  58: TTT=5365400.0
+  iter  59: TTT=5361300.0
+  iter  60: TTT=5405500.0
+  iter  61: TTT=5362100.0
+  iter  62: TTT=5335300.0
+  iter  63: TTT=5366800.0
+  iter  64: TTT=5358100.0
+  iter  65: TTT=5363800.0
+  iter  66: TTT=5354600.0
+  iter  67: TTT=5417000.0
+  iter  68: TTT=5411200.0
+  iter  69: TTT=5445800.0
+  iter  70: TTT=5406300.0
+  iter  71: TTT=5386800.0
+  iter  72: TTT=5410500.0
+  iter  73: TTT=5399100.0
+  iter  74: TTT=5398300.0
+  iter  75: TTT=5388900.0
+  iter  76: TTT=5374000.0
+  iter  77: TTT=5410300.0
+  iter  78: TTT=5436400.0
+  iter  79: TTT=5438800.0
+  iter  80: TTT=5428400.0
+  iter  81: TTT=5422000.0
+  iter  82: TTT=5437500.0
+  iter  83: TTT=5433200.0
+  iter  84: TTT=5556500.0
+  iter  85: TTT=5425700.0
+  iter  86: TTT=5474200.0
+  iter  87: TTT=5440200.0
+  iter  88: TTT=5465700.0
+  iter  89: TTT=5428700.0
+  iter  90: TTT=5412600.0
+  iter  91: TTT=5407500.0
+  iter  92: TTT=5411200.0
+  iter  93: TTT=5388100.0
+  iter  94: TTT=5426300.0
+  iter  95: TTT=5439900.0
+  iter  96: TTT=5435300.0
+  iter  97: TTT=5407300.0
+  iter  98: TTT=5365400.0
+  iter  99: TTT=5412400.0
+
+============================================================
+Running DSO_D2D (C++), seed=0, max_iter=100
+============================================================
+solving DSO...
+DSO summary:
+ total travel time: initial 6777800.0 -> minimum 5299400.0
+ number of potential route changes: initial 5540.0 -> minimum 4900.0
+ route marginal travel time gap: initial 5269.1 -> minimum 345.7
+ computation time: 8.4 seconds
+results:
+ average speed:	 0.0 m/s
+ number of completed trips:	 6840 / 6840
+ total travel time:		 5373600.0 s
+ average travel time of trips:	 785.6 s
+ average delay of trips:	 252.3 s
+ delay ratio:			 0.321
+ total distance traveled:	 60280500.0 m
+
+Elapsed: 8.39s
+Final TTT (iter 99): 5373600.0
+Last 20 iter avg TTT: 5375400.0
+Min TTT: 5299400.0 (iter 59)
+W_intermid_solution TTT: 5373600.0
+Trip completed: 6840
+
+TTT per iteration:
+  iter   0: TTT=6777800.0
+  iter   1: TTT=6425200.0
+  iter   2: TTT=6487300.0
+  iter   3: TTT=6303800.0
+  iter   4: TTT=6180100.0
+  iter   5: TTT=6081300.0
+  iter   6: TTT=5897400.0
+  iter   7: TTT=5880700.0
+  iter   8: TTT=5738300.0
+  iter   9: TTT=5673000.0
+  iter  10: TTT=5616700.0
+  iter  11: TTT=5582800.0
+  iter  12: TTT=5541100.0
+  iter  13: TTT=5507600.0
+  iter  14: TTT=5487800.0
+  iter  15: TTT=5478300.0
+  iter  16: TTT=5453400.0
+  iter  17: TTT=5419500.0
+  iter  18: TTT=5434900.0
+  iter  19: TTT=5432100.0
+  iter  20: TTT=5414300.0
+  iter  21: TTT=5412400.0
+  iter  22: TTT=5402700.0
+  iter  23: TTT=5416300.0
+  iter  24: TTT=5382100.0
+  iter  25: TTT=5377000.0
+  iter  26: TTT=5382600.0
+  iter  27: TTT=5393300.0
+  iter  28: TTT=5379200.0
+  iter  29: TTT=5380100.0
+  iter  30: TTT=5443000.0
+  iter  31: TTT=5440100.0
+  iter  32: TTT=5451000.0
+  iter  33: TTT=5382900.0
+  iter  34: TTT=5361100.0
+  iter  35: TTT=5363700.0
+  iter  36: TTT=5331900.0
+  iter  37: TTT=5333100.0
+  iter  38: TTT=5355300.0
+  iter  39: TTT=5350600.0
+  iter  40: TTT=5372400.0
+  iter  41: TTT=5343700.0
+  iter  42: TTT=5367900.0
+  iter  43: TTT=5358700.0
+  iter  44: TTT=5370900.0
+  iter  45: TTT=5359400.0
+  iter  46: TTT=5329500.0
+  iter  47: TTT=5313900.0
+  iter  48: TTT=5315100.0
+  iter  49: TTT=5327700.0
+  iter  50: TTT=5400300.0
+  iter  51: TTT=5377100.0
+  iter  52: TTT=5435800.0
+  iter  53: TTT=5373000.0
+  iter  54: TTT=5367500.0
+  iter  55: TTT=5359300.0
+  iter  56: TTT=5326800.0
+  iter  57: TTT=5345800.0
+  iter  58: TTT=5317900.0
+  iter  59: TTT=5299400.0
+  iter  60: TTT=5402000.0
+  iter  61: TTT=5382700.0
+  iter  62: TTT=5328000.0
+  iter  63: TTT=5352500.0
+  iter  64: TTT=5394300.0
+  iter  65: TTT=5416900.0
+  iter  66: TTT=5372200.0
+  iter  67: TTT=5375200.0
+  iter  68: TTT=5406000.0
+  iter  69: TTT=5486400.0
+  iter  70: TTT=5391700.0
+  iter  71: TTT=5375500.0
+  iter  72: TTT=5445700.0
+  iter  73: TTT=5389200.0
+  iter  74: TTT=5416800.0
+  iter  75: TTT=5406700.0
+  iter  76: TTT=5417800.0
+  iter  77: TTT=5390300.0
+  iter  78: TTT=5425000.0
+  iter  79: TTT=5389400.0
+  iter  80: TTT=5397000.0
+  iter  81: TTT=5388900.0
+  iter  82: TTT=5374900.0
+  iter  83: TTT=5366700.0
+  iter  84: TTT=5341000.0
+  iter  85: TTT=5371000.0
+  iter  86: TTT=5369900.0
+  iter  87: TTT=5357300.0
+  iter  88: TTT=5387100.0
+  iter  89: TTT=5353300.0
+  iter  90: TTT=5369000.0
+  iter  91: TTT=5372400.0
+  iter  92: TTT=5400100.0
+  iter  93: TTT=5393900.0
+  iter  94: TTT=5386100.0
+  iter  95: TTT=5397100.0
+  iter  96: TTT=5349200.0
+  iter  97: TTT=5372000.0
+  iter  98: TTT=5387500.0
+  iter  99: TTT=5373600.0
+
+============================================================
+SUMMARY COMPARISON (seed=0, max_iter=100)
+============================================================
+
+--- DUE (comparison metric: last 20 iter avg TTT) ---
+  Python:  last20 avg=6054600.0, final=6042900.0, trips=6840, time=70.11s
+  C++:     last20 avg=5709555.0, final=5742900.0, trips=6840, time=9.34s
+  Last 20 avg TTT rel diff: 5.70%
+  Speedup: 7.51x
+
+  Last 20 iters statistics:
+  Python: mean=6054600.0, std=121404.0, min=5813500.0, max=6242900.0
+  C++:    mean=5709555.0, std=99936.5, min=5490200.0, max=5862200.0
+
+--- DSO_D2D (comparison metric: min TTT / W_intermid_solution) ---
+  Python:  min TTT=5335300.0 (iter 62), intermid=5335300.0, trips=6840, time=97.00s
+  C++:     min TTT=5299400.0 (iter 59), intermid=5373600.0, trips=6840, time=8.39s
+  Min TTT rel diff: 0.67%
+  W_intermid TTT rel diff: 0.72%
+  Speedup: 11.56x
+
+  Last 20 iters statistics:
+  Python: mean=5430905.0, std=37099.4, min=5365400.0, max=5556500.0
+  C++:    mean=5375400.0, std=16349.3, min=5341000.0, max=5400100.0
+
+  DUE TTT trajectory (every 10 iters):
+  iter        Python           C++   rel_diff%
+     0     7131500.0     6777800.0        4.96%
+    10     7005500.0     6705100.0        4.29%
+    20     6576800.0     5984700.0        9.00%
+    30     6604500.0     5757400.0       12.83%
+    40     6138000.0     5864900.0        4.45%
+    50     5885300.0     5637800.0        4.21%
+    60     5792800.0     5876400.0        1.44%
+    70     6078600.0     5819200.0        4.27%
+    80     6114500.0     5764300.0        5.73%
+    90     6093100.0     5666800.0        7.00%
+    99     6042900.0     5742900.0        4.96%
+
+  DSO_D2D TTT trajectory (every 10 iters):
+  iter        Python           C++   rel_diff%
+     0     7131500.0     6777800.0        4.96%
+    10     5747500.0     5616700.0        2.28%
+    20     5474500.0     5414300.0        1.10%
+    30     5433700.0     5443000.0        0.17%
+    40     5428800.0     5372400.0        1.04%
+    50     5418400.0     5400300.0        0.33%
+    60     5405500.0     5402000.0        0.06%
+    70     5406300.0     5391700.0        0.27%
+    80     5428400.0     5397000.0        0.58%
+    90     5412600.0     5369000.0        0.81%
+    99     5412400.0     5373600.0        0.72%

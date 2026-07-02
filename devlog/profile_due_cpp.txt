@@ -1,0 +1,48 @@
+         1730856 function calls (1729780 primitive calls) in 7.078 seconds
+
+   Ordered by: cumulative time
+   List reduced from 641 to 40 due to restriction <40>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.621    0.621    7.078    7.078 /home/toruseo/UXsim-dev-cpp/uxsim/DTAsolvers/DTAsolvers.py:375(solve)
+       20    2.020    0.101    2.020    0.101 /home/toruseo/UXsim-dev-cpp/uxsim/DTAsolvers/DTAsolvers.py:47(_convert_od_routes_to_ids)
+        1    1.806    1.806    1.806    1.806 /home/toruseo/UXsim-dev-cpp/uxsim/Utilities/Utilities.py:165(enumerate_k_random_routes)
+       20    0.426    0.021    1.790    0.089 /home/toruseo/UXsim-dev-cpp/uxsim/uxsim_cpp_wrapper.py:1000(exec_simulation)
+       21    0.003    0.000    0.799    0.038 /home/toruseo/UXsim-dev-cpp/uxsim/uxsim_cpp_wrapper.py:958(finalize_scenario)
+       21    0.014    0.001    0.796    0.038 /home/toruseo/UXsim-dev-cpp/uxsim/uxsim_cpp_wrapper.py:975(_setup_analyzer)
+       20    0.001    0.000    0.619    0.031 /home/toruseo/UXsim-dev-cpp/uxsim/uxsim_cpp_wrapper.py:1180(simulation_terminated)
+       21    0.000    0.000    0.498    0.024 /home/toruseo/UXsim-dev-cpp/uxsim/analyzer.py:43(__init__)
+       21    0.000    0.000    0.448    0.021 /home/toruseo/UXsim-dev-cpp/uxsim/DTAsolvers/DTAsolvers.py:26(wrapper)
+       21    0.000    0.000    0.447    0.021 <string>:11(<lambda>)
+       21    0.019    0.001    0.447    0.021 /home/toruseo/UXsim-dev-cpp/devlog/benchtestdta.py:115(_create_due_world)
+       21    0.000    0.000    0.392    0.019 /home/toruseo/UXsim-dev-cpp/uxsim/utils.py:92(get_font_for_matplotlib)
+       21    0.002    0.000    0.387    0.018 /home/toruseo/.local/lib/python3.13/site-packages/matplotlib/font_manager.py:275(findSystemFonts)
+       20    0.258    0.013    0.339    0.017 /home/toruseo/UXsim-dev-cpp/uxsim/uxsim_cpp_wrapper.py:1123(_build_all_vehicle_log_caches)
+      147    0.031    0.000    0.297    0.002 /home/toruseo/.local/lib/python3.13/site-packages/matplotlib/font_manager.py:188(list_fonts)
+      756    0.009    0.000    0.295    0.000 /home/toruseo/UXsim-dev-cpp/uxsim/scenario_reader_writer.py:15(wrapper)
+     6048    0.156    0.000    0.283    0.000 /home/toruseo/UXsim-dev-cpp/uxsim/uxsim_cpp_wrapper.py:210(init_after_tmax_fix)
+       20    0.009    0.000    0.197    0.010 /home/toruseo/UXsim-dev-cpp/uxsim/analyzer.py:2020(link_to_pandas)
+      756    0.093    0.000    0.193    0.000 /home/toruseo/UXsim-dev-cpp/uxsim/uxsim_cpp_wrapper.py:884(adddemand)
+       20    0.001    0.000    0.178    0.009 /home/toruseo/UXsim-dev-cpp/uxsim/analyzer.py:98(basic_analysis)
+       20    0.021    0.001    0.159    0.008 /home/toruseo/UXsim-dev-cpp/uxsim/analyzer.py:183(link_analysis_coarse)
+    30765    0.023    0.000    0.158    0.000 /usr/lib/python3.13/pathlib/_abc.py:167(suffix)
+       20    0.001    0.000    0.149    0.007 /home/toruseo/UXsim-dev-cpp/uxsim/analyzer.py:1682(od_to_pandas)
+       20    0.043    0.002    0.130    0.006 /home/toruseo/UXsim-dev-cpp/uxsim/analyzer.py:121(od_analysis)
+    30765    0.013    0.000    0.127    0.000 /usr/lib/python3.13/pathlib/_local.py:346(name)
+    31251    0.031    0.000    0.114    0.000 /usr/lib/python3.13/pathlib/_local.py:307(_tail)
+       25    0.111    0.004    0.111    0.004 {method 'read' of '_io.BufferedReader' objects}
+     6048    0.009    0.000    0.109    0.000 /home/toruseo/UXsim-dev-cpp/uxsim/uxsim_cpp_wrapper.py:817(addLink)
+       21    0.000    0.000    0.104    0.005 /home/toruseo/UXsim-dev-cpp/uxsim/analyzer.py:22(load_font_data)
+       20    0.102    0.005    0.102    0.005 /home/toruseo/UXsim-dev-cpp/uxsim/DTAsolvers/DTAsolvers.py:73(_convert_cpp_result_to_names)
+       20    0.101    0.005    0.101    0.005 /home/toruseo/UXsim-dev-cpp/uxsim/uxsim_cpp_wrapper.py:1187(_build_vehicles_enter_log)
+     6048    0.091    0.000    0.099    0.000 /home/toruseo/UXsim-dev-cpp/uxsim/uxsim_cpp_wrapper.py:116(__init__)
+      756    0.089    0.000    0.099    0.000 /home/toruseo/UXsim-dev-cpp/uxsim/uxsim_cpp_wrapper.py:1027(_register_new_cpp_vehicles)
+     6228    0.083    0.000    0.083    0.000 {built-in method numpy.array}
+    20507    0.030    0.000    0.071    0.000 /usr/lib/python3.13/pathlib/_local.py:257(_parse_path)
+     4381    0.005    0.000    0.063    0.000 /home/toruseo/.local/lib/python3.13/site-packages/numpy/_core/_methods.py:217(_std)
+      756    0.001    0.000    0.063    0.000 /usr/lib/python3.13/inspect.py:3373(signature)
+      756    0.001    0.000    0.062    0.000 /usr/lib/python3.13/inspect.py:3094(from_callable)
+      756    0.008    0.000    0.061    0.000 /usr/lib/python3.13/inspect.py:2487(_signature_from_callable)
+     4381    0.036    0.000    0.056    0.000 /home/toruseo/.local/lib/python3.13/site-packages/numpy/_core/_methods.py:148(_var)
+
+
