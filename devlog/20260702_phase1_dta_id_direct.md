@@ -14,7 +14,7 @@
 
 ## 検証
 
-- ビット同一: `devlog/verify_bit_identity_dta.py`（9x9グリッド DUE+DSO 10iter、TTT列・最終経路・コスト・traveltime_real を完全一致比較）で全Step PASS
+- ビット同一: `tmp/verify_bit_identity_dta.py`（一時スクリプト・git管理外）（9x9グリッド DUE+DSO 10iter、TTT列・最終経路・コスト・traveltime_real を完全一致比較）で全Step PASS
 - テスト: test_cpp_mode.py 199 passed（reruns 5）、DTAサブセット25 passed、Pythonモード test_verification_dta_solvers.py 2 passed
 
 ## 効果（OMP_NUM_THREADS=1, 9x9, deltan=10, tmax=4800, 10iter, 5回中央値）

@@ -77,6 +77,11 @@ python3 -m pytest tests/ --cpp --reruns 5 -q --tb=short
 3. cppモード対象外の機能（pickle等）を使うテストは除外
 4. DRLなど30分以上かかるテストも対象外
 
+## フォルダ運用
+
+- `devlog/` には**Markdownの計画書・完了報告のみ**を置く（コミット対象）
+- 一時スクリプト・ベンチ結果・プロファイル等のアーティファクトはリポジトリ直下の `tmp/` に置く（**git管理外．コミット禁止**）
+
 ## Git運用
 
 - このリポジトリは `toruseo/UXsim`（本家）をフォークした `toruseoagent/UXsim` の作業リポジトリ

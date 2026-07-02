@@ -12,7 +12,7 @@
 
 ## 検証
 
-- ビット同一（`devlog/verify_bit_identity_core.py`）: シナリオA（一括実行: 全リンクtraveltime_real・全車両ログ・TTT）、B（600sチャンク分割＋各境界で全リンク読み出し=介入再現）、C（小規模DSO=externality経路）の3系統すべてPASS
+- ビット同一（`tmp/verify_bit_identity_core.py`、一時スクリプト・git管理外）: シナリオA（一括実行: 全リンクtraveltime_real・全車両ログ・TTT）、B（600sチャンク分割＋各境界で全リンク読み出し=介入再現）、C（小規模DSO=externality経路）の3系統すべてPASS
 - テスト: test_cpp_mode.py 200 passed（介入読み出しの回帰テスト `test_traveltime_actual_intervention_read_chunked` を新規追加）
 - 注: 実装エージェントがセッション中断で停止したため、検証（参照再生成→比較→テスト→計測）は指揮官が実施
 
