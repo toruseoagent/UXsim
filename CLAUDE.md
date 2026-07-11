@@ -178,6 +178,6 @@ git push fork main --force-with-lease
 
 - **Pythonモードregressionチェックを毎回やる**
 - **raw APIとラッパー経由で切り分けデバッグ**
-- **flakyテストが多いのでpytest-rerunfailuresを必ずインストール**．rerunして成功すれば全く問題ない
-- **リビルド→テスト**: `pip install -e . && python3 -m pytest tests/test_cpp_mode.py --reruns 5 -q --tb=short`
+- **flakyテストが多いのでpytest-rerunfailuresを必ずインストール**．flakyテストには@pytest.mark.flaky(reruns=5)を必ずつける．rerunして成功すれば全く問題ないので，言及の必要もない
+- **リビルド→テスト**: `pip install -e . && python3 -m pytest tests/test_cpp_mode.py -q --tb=short`
 - **精密ベンチマークは1スレッドで10回計測**（中央値+std）．**cProfileでボトルネック特定**．cumtimeソート上位関数を見る
