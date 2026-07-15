@@ -85,4 +85,18 @@ mainのmain_loopは既に以下のステージ構造を持つ:
 
 ## 6. 経過記録
 
-（フェーズ完了ごとに追記）
+### Phase 0 完了（2026-07-15）
+
+- ハーネス適応: `tmp/ecs_refactor/scenarios.py` の `_make_world()` にthreads引数サポートの自動検出（使い捨てCppWorldによるプローブ方式，キャッシュ付き）を追加．det/stat/benchの3ハーネスはここ経由のため1箇所で対応．scale_bench.pyは独自に同検出を追加（未対応時はOMP_NUM_THREADS方式＋警告）
+- ビット同一性: 現AoSエンジン（5e8dd59）は `baseline_det.json`（リファクタ前 08df4fb）と**10/10ビット同一**．ベースラインの有効性を確認
+- リグレッション: test_cpp_mode.py 211件通過（flaky 2件はrerunで通過）
+- ベンチベースライン（`baseline_bench_aos_p0.json`, 1スレッド, n=10）: heavy_grid exec 1.777s±0.284，total 1.863s±0.350，log_heavy sim 0.143s±0.010，logbuild 1.142s±0.026
+- 申し送り: heavy_gridのstdが約16%とマシンドリフト並みに大きい．フェーズ判定はインターリーブA/Bで行う（計画通り）．スケーリング判定はscale_benchのmainloop指標を使う
+
+### Phase 1 完了（2026-07-15, コミット beddd7e）
+
+- RNGストリーム分離: `World::rng` 廃止，`node_rngs`/`link_rngs`（`make_entity_rng(seed, kind, id)` = seed_seq{seed_lo, seed_hi, kind, id}，node kind=1/link kind=2）．割当: transferシャッフル・合流抽選・generate時経路選択＝nodeストリーム，走行中リンク端の経路選択・adj旅行時間ノイズ＝linkストリーム．route_next_link_choiceはRNG参照を引数で受ける形に変更
+- 共有状態排除: vehicles_living/running削除（読み出しゼロを全数監査で確認），trips_completed_count→per-link部分和，ave_v_sum/ave_vratio_sum/stat_sample_count→RUNはper-link・WAITはper-node部分和（id昇順リダクション，bindingsはdef_prop_ro化），incoming_vehicles→`Link::arrived_vehicles` per-link収集バッファ＋transfer冒頭で車両id昇順sort集約（requests は route_next_link から再構築）
+- ゲート: det_suiteグループA 7/7ビット同一，グループB 3/3 FAIL（RNG実現値変化，想定通り），stat_suite OVERALL PASS（heavy ttt p=0.523/signal ttt p=0.373，cross≒within），テスト211件通過（調整なし），ベンチ非退行（インターリーブ3ラウンド median-of-medians +0.58%，ノイズ内）
+- 新リファレンス `baseline_det_aos_p1.json` 記録（自己一致10/10）
+- Phase 2への申し送り: ホットパスの統計加算（`link_ave_v_sum[link->id] +=`）はRUN per-link化の際にリンクローカルへホイストしてflush一回化するのが自然．`Link::arrived_vehicles`はRUNパス（link専有）がpush・transferがdrainの構造で並列化時も競合なし
