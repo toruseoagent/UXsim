@@ -254,6 +254,21 @@ Round 5/6で使ったsha256方式（全車両ログ・全リンクtraveltime・�
 - **ベンチ退行 +16%**（インターリーブ3ラウンド: base中央値2.14〜2.45s vs Phase 1 2.65〜2.69s）。原因はアクセサ経由の間接参照（Vehicle構造体ロード＋vector基底ロードの増加）で，Phase 3のホットループ配列直接走査化で解消される構造のもの
 - **判断**: Phase 1は土台フェーズとして退行を暫定受け入れ。**回復条件: Phase 3完了時点でheavy_grid execがベースライン（約2.1〜2.3s）を明確に下回ること**。満たさない場合はSoA方針自体を再評価する
 
+### Phase 2 完了（2026-07-15, コミット 1903ed7）
+
+- リンク車両キューをint32リングバッファ＋単調シーケンス番号に置換，leader/followerポインタと繋ぎ替えコードを全廃（位置導出方式）。Python版・旧C++との9項目対応表で等価性確認
+- ゲート: det_suite 10/10ビット同一，test_cpp_mode.py 211件通過，dta_solver.cpp変更不要
+- ベンチ: Phase 1比さらに約+15%（`leader()`導出の依存ロード連鎖）。土台フェーズとして受け入れ（累積 対base約+33%）
+
+### Phase 3 完了（2026-07-15, コミット 902500f）
+
+- update_order・Vehicle::update()・car_follow_newell()を廃止し，タイムステップ内を links → generate/signal/capacity → transfer → **RUN融合パス（リンク順）** → WAITログパス → HOME出発バケットパス → route choice に再構成。incoming_vehiclesはtransfer冒頭でid昇順に正準化
+- **仕様修正（重要な発見）**: 計画時の想定「log_sのleader位置はx_old読み替えで等価」は誤り。旧コードのlog_sはid順走査に依存し，leaderのidが自車より小さければ**移動後のx**，大きければ移動前のxを読んでいた。実装は `leader_id < self_id ? x : x_old`（およびleaderが同stepで終了済みの場合は-1）の判別則で旧挙動をビット単位再現した（担当エージェントが実測で検証・特定）
+- ゲート: det_suiteグループA 7/7ビット同一（merge_hard_det, grid_hard_det含む），グループBは想定通りFAIL（乱数消費順序変更）。test_cpp_mode.py 211件通過（テスト調整は不要だった）。stat_suite全PASS（heavy: TTT差−1.05% p=0.431, cross相関0.417≧within 0.410 / signal: TTT差+0.07% p=0.944, cross 0.278≧within 0.270）
+- ベンチ（3-legインターリーブ, base/phase2/phase3）: phase3はphase2の退行を全額回収（各ラウンド30〜40%高速）。対baseはラウンド中央値で 2.135/2.351/2.583 vs 2.291/2.341/2.346 とパリティ〜微改善（5ラウンド追試で中央値の平均−9%，記録ベースライン比−13.7%）。**回復条件「baseを明確に下回る」は厳密には未達**（マシンノイズ±15%が信号5〜9%を上回る）
+- プロファイル: main_loop 1.448sのうちRUN融合パス1.220s（84%），支配項は**per-vehicleログ5配列へのpush_back**（baseも同コストを払っている共通ボトルネック）。構造改革によるアクセサ退行の解消は完了し，残る高速化レバーはPhase 4のログアリーナ
+- **判断**: 対base非退行・構造目標達成・ボトルネックがPhase 4スコープと特定できたため受け入れ。**明確なベンチ勝利の実現はPhase 4に委ねる**（Phase 4で達成できなければ§5の回復条件不達としてプロジェクト全体を再評価）
+
 ## 9. 参考資料
 
 - プロファイル・P1/P2実装: `devlog/20260703_plan_cpp_core_optimization_round6.md`
