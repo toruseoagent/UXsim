@@ -322,6 +322,12 @@ Phase 5 → Phase 7（並列化準備）→ Phase 8（OpenMP決定的並列化�
 - 1スレッド累積: heavy exec −13.7%（対リファクタ前ベースライン）
 - 残課題（スコープ外として記録）: exec全体のさらなる短縮にはPython側後処理の並列化・削減が必要
 
+### Phase 9 完了（2026-07-15, コミット 4d2be00）
+
+- ユーザー指定により `World(cpp=True, ..., threads=1)` 引数を追加（デフォルト1，N≧1でNスレッド，-1で全コア=omp_get_max_threads()，不正値はValueError）。wrapperへの最低限の編集を許可の上で実施（CppWorld.__init__への引数追加・検証・docstring）
+- 実装は全4並列リージョンへの `num_threads(resolve_num_threads())` 節付与。omp_set_num_threadsは不使用（プロセスグローバル状態を汚さない）。uxsim.py本体は無変更（cppモード専用拡張）
+- ゲート: threads引数経由のスレッド数非依存ビット同一（1/2/8で10/10），テスト212件（threads回帰テスト1件追加）通過，デフォルト時オーバーヘッドなし・threads=8スケーリング再現
+
 ### Phase 6 完了・プロジェクト検証完了（2026-07-15）
 
 - 総合検証全PASS。詳細と最終数値は `devlog/20260715_ecs_soa_refactor_completion_report.md` を参照

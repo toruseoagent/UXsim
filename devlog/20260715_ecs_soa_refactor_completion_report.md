@@ -27,6 +27,7 @@ C++エンジン内部をECSの核となる構成（整数ID＋SoAコンポーネ
 | 29e67b1 | Phase 5 | 固定費削減（route_preference lazy化，ログreserve右サイズ化，選択バッファ共有化） |
 | e80b91d | Phase 7 | RNGをper-node/per-linkストリームに分離，共有可変状態の排除 |
 | 1ecb30f | Phase 8 | OpenMP決定的並列化（単一parallelリージョン＋ステージ別for，transferはsingleで直列） |
+| 4d2be00 | Phase 9 | `World(cpp=True, threads=1)` 引数追加（-1で全コア，wrapperにcppモード専用拡張，テスト212件目追加） |
 
 Phase 4（ログのtimestep-majorアリーナ化）は実装・計測の結果**不採用・revert**（ログコストの本質は書き込み量であり配置ではないと実証。Round 4の教訓を再確認）。
 
