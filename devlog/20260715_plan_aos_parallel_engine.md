@@ -109,3 +109,13 @@ mainのmain_loopは既に以下のステージ構造を持つ:
 - ゲート: det_suite **10/10ビット同一**（グループBも一致——リンク当りRNG消費者が先頭到達車1台のみのため消費順不変），stat_suite全PASS，テスト211件通過，ベンチ**−14.8%**（インターリーブ3ラウンド，heavy exec中央値 2.192→1.868s，レンジ重複なし．融合パスによる簿記除去とdeque連続走査の局所性向上）
 - 新リファレンス `baseline_det_aos_p2.json`（自己一致10/10）
 - Phase 3への申し送り: run_snapshotスクラッチのthread_local化必須，WAITはper-node並列で安全（orig==自node），HOMEは直列維持，transferはomp single，例外は最小id優先の決定的再送出
+
+### Phase 3 完了（2026-07-15, コミット 9071af8）
+
+- 並列化: 1タイムステップを単一 `omp parallel` リージョン＋ステージ別 `omp for schedule(static)`（Link::update per-link，Node generate/signal/capacity per-node，RUN融合 per-link，WAIT per-node）．transferは `omp single`，HOME・update_adj_time_matrix・print_progressは直列．route_search_all（per-source）とroute_choice_duo/_gradual（per-dest）は独立リージョン（計4リージョン）
+- thread_local化: RUNパスのrun_snapshot（static thread_local），route_search_allのvisited/pq（World::rsa_visitedメンバ廃止→スレッドローカル確保）．Vehicle::_buf_*はper-vehicle専有で競合なしを点検確認
+- 例外処理: generate/RUNステージのtry/catchで捕捉，omp critical下で最小entity idの例外をexception_ptrに記録，リージョン後に決定的再送出（links_avoid例外テストで経路検証）
+- ゲート: **OMP_NUM_THREADS=1/2/8でbaseline_det_aos_p2.jsonと10/10ビット同一**，テスト211件通過，1スレッドベンチ非退行（インターリーブ6ラウンド MoM −1.4%）
+- スケーリング（heavy, mainloop, ログON, 中央値）: 1T 1.000s / 2T 0.607s(1.65x) / 4T 0.402s(2.49x) / **8T 0.283s(3.53x)**．SoA版（1.56/1.88/2.88x）を全スレッド数で上回る．仮説: AoSは1スレッドの並列化可能フラクションが相対的に高く直列transfer比率が小さいためAmdahl的に有利
+- 発見: 両CMakeLists.txtはnanobind使用（CLAUDE.mdのpybind11記述は旧情報）
+- Phase 4への申し送り: 全4並列リージョンに `num_threads(resolve_num_threads())` 付与，wrapper/bindingsにthreads引数，回帰テスト1件追加で212件へ
