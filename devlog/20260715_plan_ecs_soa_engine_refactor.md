@@ -239,7 +239,22 @@ Round 5/6で使ったsha256方式（全車両ログ・全リンクtraveltime・�
 - ベンチ実行中は他プロセスを走らせない
 - 各フェーズ完了時にdevlogへ計測結果を追記
 
-## 8. 参考資料
+## 8. 経過記録
+
+### Phase 0 完了（2026-07-15）
+
+- ハーネス3本を `tmp/ecs_refactor/` に整備（det_suite: 10シナリオsha256，stat_suite: 30シードWelch+within/cross相関，bench_suite: 1スレッド10回中央値）
+- ベースライン（HEAD 08df4fb）: test_cpp_mode.py 211件通過。heavy_grid exec 2.093s±0.251，log_heavy logbuild 1.290s±0.035。det自己一致10/10
+- 注意: ベンチはプロセス起動間で約15%ドリフトするため，フェーズ判定はインターリーブA/B（交互ビルド）で行う
+
+### Phase 1 完了（2026-07-15, コミット 68da00c）
+
+- Vehicle hot 8変数をWorld SoA配列へ移設，Vehicleは idx＋インラインアクセサのファサードに。bindingsはdef_prop化，wrapper無変更
+- ゲート: det_suite 10/10ビット同一（確率的シナリオ含む），test_cpp_mode.py 211件通過
+- **ベンチ退行 +16%**（インターリーブ3ラウンド: base中央値2.14〜2.45s vs Phase 1 2.65〜2.69s）。原因はアクセサ経由の間接参照（Vehicle構造体ロード＋vector基底ロードの増加）で，Phase 3のホットループ配列直接走査化で解消される構造のもの
+- **判断**: Phase 1は土台フェーズとして退行を暫定受け入れ。**回復条件: Phase 3完了時点でheavy_grid execがベースライン（約2.1〜2.3s）を明確に下回ること**。満たさない場合はSoA方針自体を再評価する
+
+## 9. 参考資料
 
 - プロファイル・P1/P2実装: `devlog/20260703_plan_cpp_core_optimization_round6.md`
 - AoSログパック放棄の経緯: `devlog/20260401_plan_cpp_optimization.md`（Round 4）
