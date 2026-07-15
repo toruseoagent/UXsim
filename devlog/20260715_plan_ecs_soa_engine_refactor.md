@@ -312,6 +312,16 @@ Phase 5 → Phase 7（並列化準備）→ Phase 8（OpenMP決定的並列化�
 - Phase 8への申し送り: `_buf_outlinks`等のWorld共有スクラッチはthread_local化が必要。RUN統計はper-linkローカルにホイスト済み（当初実装の+20%退行をこれで解消）
 - ゲート: det_suiteグループA 7/7ビット同一，テスト211件通過（調整なし），stat_suite全PASS（heavy TTT+0.85% p=0.523 / signal TTT−0.70% p=0.373，cross≧within−0.05），ベンチ非退行（4ラウンド平均+2.3%，ノイズ内）。Phase 8用リファレンス `baseline_det_phase7.json` 記録済み（自己一致10/10）
 
+### Phase 8 完了（2026-07-15, コミット 1ecb30f）
+
+- 並列化: Link::update（per-link），generate＋signal＋capacity（per-node），RUN融合パス（per-link），WAITログ（per-node），route_search_all（per-source），route_choice_duo（per-dest）。1タイムステップを単一の `omp parallel` リージョン＋ステージ別 `omp for`（暗黙バリアで順序維持）で構成。transfer（逐次可視性セマンティクス）・HOME・adj行列更新は直列維持（transferは `omp single`）
+- 例外はリージョン内捕捉→最小entity id優先で決定的に再送出。スクラッチ（_buf_*, Dijkstra visited/pq）はthread_local化
+- ビルド: scikit-build-coreは**リポジトリ直下のCMakeLists.txt**を使う（trafficpp/内のものではない）。両方にOpenMPを追加
+- ゲート: **OMP_NUM_THREADS=1/2/8の全てで baseline_det_phase7.json と10/10ビット同一**。テスト211件通過。1スレッド非退行（ノイズ±5%内）
+- スケーリング（heavy 11x11，中央値）: main_loopはログONで 1.339→0.465s（**8スレッドで2.88x**），ログOFFで0.451→0.217s（バリアオーバーヘッドで4スレッド以降頭打ち）。exec_simulationは直列のPython後処理（_sync_from_cpp約0.6〜0.7s）に希釈され8スレッドで1.74x
+- 1スレッド累積: heavy exec −13.7%（対リファクタ前ベースライン）
+- 残課題（スコープ外として記録）: exec全体のさらなる短縮にはPython側後処理の並列化・削減が必要
+
 ## 9. 参考資料
 
 - プロファイル・P1/P2実装: `devlog/20260703_plan_cpp_core_optimization_round6.md`
