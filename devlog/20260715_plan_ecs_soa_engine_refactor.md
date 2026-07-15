@@ -322,6 +322,12 @@ Phase 5 → Phase 7（並列化準備）→ Phase 8（OpenMP決定的並列化�
 - 1スレッド累積: heavy exec −13.7%（対リファクタ前ベースライン）
 - 残課題（スコープ外として記録）: exec全体のさらなる短縮にはPython側後処理の並列化・削減が必要
 
+### Phase 6 完了・プロジェクト検証完了（2026-07-15）
+
+- 総合検証全PASS。詳細と最終数値は `devlog/20260715_ecs_soa_refactor_completion_report.md` を参照
+- 対Python 40.0x（1スレッド），対リファクタ前 exec −13.5%，main_loop 8スレッド2.76x，Python妥当性・スレッド数非依存ビット同一・リグレッション全通過
+- 本家PRは未送信（ユーザー指示待ち）
+
 ## 9. 参考資料
 
 - プロファイル・P1/P2実装: `devlog/20260703_plan_cpp_core_optimization_round6.md`
