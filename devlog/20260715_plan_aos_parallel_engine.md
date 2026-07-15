@@ -125,3 +125,9 @@ mainのmain_loopは既に以下のステージ構造を持つ:
 - SoA版4d2be00の移植（diff stat同一，5ファイル +87/−6）: `World::num_threads`＋`resolve_num_threads()`（-1→omp_get_max_threads），全4並列リージョンにnum_threads節，bindingsにdef_rw 1行，wrapperのCppWorld.__init__にthreads=1引数（バリデーション: bool明示拒否・0/-2以下はValueError）．uxsim.py本体無変更
 - テスト追加: test_threads_parameter（threads=1/2/-1のビット同一＋不正値ValueError）→212件
 - ゲート: det_suite --threads 1/2/8 全て10/10 PASS，テスト212件通過，デフォルトオーバーヘッドなし（ノイズ内），スケーリング再現（threads=8でmainloop 4.00x，Phase 3計測と3%以内で整合）
+
+### Phase 5 完了・プロジェクト検証完了（2026-07-15）
+
+- 総合検証全PASS。詳細と最終数値は `devlog/20260715_aos_parallel_completion_report.md` を参照
+- 対Python 40.7x（1T）/56.5x（8T），対fork main −10.2%（1T），main_loop 8T 3.69x（SoA版2.88xを上回る），python_parity全PASS，スレッド数非依存ビット同一，リグレッション212件通過
+- 本家PRは未送信（ユーザー指示待ち）
