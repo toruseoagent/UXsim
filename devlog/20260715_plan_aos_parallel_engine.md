@@ -119,3 +119,9 @@ mainのmain_loopは既に以下のステージ構造を持つ:
 - スケーリング（heavy, mainloop, ログON, 中央値）: 1T 1.000s / 2T 0.607s(1.65x) / 4T 0.402s(2.49x) / **8T 0.283s(3.53x)**．SoA版（1.56/1.88/2.88x）を全スレッド数で上回る．仮説: AoSは1スレッドの並列化可能フラクションが相対的に高く直列transfer比率が小さいためAmdahl的に有利
 - 発見: 両CMakeLists.txtはnanobind使用（CLAUDE.mdのpybind11記述は旧情報）
 - Phase 4への申し送り: 全4並列リージョンに `num_threads(resolve_num_threads())` 付与，wrapper/bindingsにthreads引数，回帰テスト1件追加で212件へ
+
+### Phase 4 完了（2026-07-15, コミット 122aef8）
+
+- SoA版4d2be00の移植（diff stat同一，5ファイル +87/−6）: `World::num_threads`＋`resolve_num_threads()`（-1→omp_get_max_threads），全4並列リージョンにnum_threads節，bindingsにdef_rw 1行，wrapperのCppWorld.__init__にthreads=1引数（バリデーション: bool明示拒否・0/-2以下はValueError）．uxsim.py本体無変更
+- テスト追加: test_threads_parameter（threads=1/2/-1のビット同一＋不正値ValueError）→212件
+- ゲート: det_suite --threads 1/2/8 全て10/10 PASS，テスト212件通過，デフォルトオーバーヘッドなし（ノイズ内），スケーリング再現（threads=8でmainloop 4.00x，Phase 3計測と3%以内で整合）
