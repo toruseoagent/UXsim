@@ -305,6 +305,13 @@ Phase 5 → Phase 7（並列化準備）→ Phase 8（OpenMP決定的並列化�
 - スキップ2項目: _traveled_nodes（約320KBで計測フロア未満），SIMD car_follow（gatherアクセスでROI不足）
 - ゲート: det_suite 10/10ビット同一，テスト211件通過。heavy build 0.125→0.078s，total 中央値2.32→1.90s，exec非退行（1.81〜1.83sで安定），log_heavy改善（logbuild 1.43→1.28s）
 
+### Phase 7 完了（2026-07-15, コミット e80b91d）
+
+- RNGストリーム分離: `World::rng` を廃止し `node_rngs` / `link_rngs`（seed_seq{seed, kind, id}で構築時に決定的シード）。route_next_link_choiceはRNG参照を引数で受ける形に変更（generate文脈=node stream，RUNパス文脈=link stream）
+- 共有状態排除: vehicles_living/running削除（全箇所監査で読み出しなしを確認），trips_completed_countのper-link化，統計和のper-link/per-node部分和＋id昇順リダクション（bindingsはdef_prop_ro化），incoming_vehiclesのper-link収集バッファ化（transfer冒頭でid順集約）
+- Phase 8への申し送り: `_buf_outlinks`等のWorld共有スクラッチはthread_local化が必要。RUN統計はper-linkローカルにホイスト済み（当初実装の+20%退行をこれで解消）
+- ゲート: det_suiteグループA 7/7ビット同一，テスト211件通過（調整なし），stat_suite全PASS（heavy TTT+0.85% p=0.523 / signal TTT−0.70% p=0.373，cross≧within−0.05），ベンチ非退行（4ラウンド平均+2.3%，ノイズ内）。Phase 8用リファレンス `baseline_det_phase7.json` 記録済み（自己一致10/10）
+
 ## 9. 参考資料
 
 - プロファイル・P1/P2実装: `devlog/20260703_plan_cpp_core_optimization_round6.md`
