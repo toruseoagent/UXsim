@@ -126,10 +126,13 @@ Round 4でAoSパック化がエクスポート時transpose増で+18%退行した
 変更はリンク車両キュー（b）と，車両参照のポインタ→idx置換のみ。
 `route_preference[dest][link]` の flat 化（stride L の単一配列）は Phase 5 の計測次第。
 
-#### (h) 乱数ストリーム（将来の並列化への布石，本体はスコープ外）
+#### (h) 乱数ストリームと並列化（2026-07-15改訂: ユーザー承認によりスコープに追加）
 
-単一グローバル `mt19937` を維持する（消費順序のみ自由化）。
-car_followのOpenMP並列化は乱数非消費なので単一RNGのままでも可能になったが，デフォルト無効の検討項目にとどめる（ベンチ規約が1スレッドであるため優先度低）。
+Phase 4完了時点の再評価（§8）で「1スレッド・レイアウト変更のみでは当初目標に到達不能」と結論し，ユーザー承認のもと決定的並列化をスコープに追加した。
+
+- **Phase 7（並列化準備，直列のまま）**: 単一 `mt19937` をper-nodeストリーム（transferのシャッフル・合流抽選，generate時の経路選択）とper-linkストリーム（RUNパスでの経路選択，adj旅行時間ノイズ）に分離。シードとentity種別・idから決定的に初期化。併せて並列化を阻害する共有可変状態を排除（vehicles_living/runningの監査・削除，統計和のper-entity部分和＋id固定順リダクション，incoming_vehiclesのper-link収集バッファ化）
+- **Phase 8（OpenMP並列化）**: links update（per-link），generate/signal/capacity/transfer（per-node。ノードのin/out linkは当該ノード専有なので排他），RUN融合パス（per-link），WAIT/HOMEパス，route_search_all（per-source），route_choice_duo（per-dest）を静的分割で並列化。entity別RNGと固定順リダクションにより**同一シードならスレッド数に依らずビット同一**を成立させる
+- ベンチ規約: 1スレッド計測（対Python比・非退行確認）を維持し，4/8スレッドのスケーリング計測を併記する
 
 ### 3.4 変えないもの（互換性制約）
 
@@ -187,7 +190,16 @@ car_followのOpenMP並列化は乱数非消費なので単一RNGのままでも�
 - 計測で効果があれば: World route_preferenceのflat化，car_followのSIMD明示化
 - （検討のみ・デフォルト無効）car_followのOpenMP並列化
 
-### Phase 6: 総合検証とPR準備
+### Phase 7: 並列化準備（§3.3(h)。Phase 5の後に実施，直列のまま）
+
+- RNGストリーム分離と共有状態排除。確率的結果の変化を並列化本体から分離するのが目的
+- ゲート: det_suiteグループAビット同一＋stat_suite 30シード統計的同等＋1スレッドベンチ非退行。通過後にグループB新リファレンスを記録
+
+### Phase 8: OpenMP決定的並列化（§3.3(h)）
+
+- ゲート: OMP_NUM_THREADS=1/2/8でPhase 7とビット同一（det_suite全10シナリオ），1スレッドベンチ非退行，4/8スレッドのスケーリング計測
+
+### Phase 6: 総合検証とPR準備（最終フェーズとして実施）
 
 - CLAUDE.mdのPR前必須チェック: 全リグレッション，Python版との妥当性検証（30シード規模の統計比較，§5.2と同じ手法をPython vs 新C++に適用），精密ベンチマーク（スピードアップ倍率記載）
 - 既存テストのうち固定シードの数値期待に依存するものの点検（§6リスク参照）
@@ -281,6 +293,17 @@ Round 5/6で使ったsha256方式（全車両ログ・全リンクtraveltime・�
 - 理由: (i) 死に走査の除去はRound 6のP1（update_order圧縮）で既にbaseに取り込まれており，本リファクタの上積みはHOMEバケット等に限られた，(ii) 残る支配項（per-vehicleログ書き込み）は書き込み量が本質でbaseも同額を払う共通コスト
 - 得られたもの: SoAコア＋状態別システム＋位置導出リンクキューという並列化・SIMD適性の高い構造，全互換（wrapper無変更・テスト無調整），統計的同等性の実証，メモリ削減余地（Phase 5）
 - **残る大きな高速化レバーは並列化**（乱数消費順序制約の撤廃とリンク独立なRUNパス構造により，per-linkストリームRNG＋静的分割で決定的並列が設計可能になった）。ただしベンチ規約は1スレッドでありスコープ拡張はユーザー判断待ち。Phase 5（固定費削減）は計画どおり実施する
+
+### 方向性決定（2026-07-15，ユーザー承認）
+
+再評価を受けてユーザーに方向性を確認し，「並列化に進む」が選択された。
+Phase 5 → Phase 7（並列化準備）→ Phase 8（OpenMP決定的並列化）→ Phase 6（総合検証・PR準備）の順で進める。
+
+### Phase 5 完了（2026-07-15, コミット 29e67b1）
+
+- 採用3項目: (1) Vehicle::route_preference lazy化（エンジン未使用をgrepで再確認，bindingsはdef_prop_rwで観測可能挙動維持。RSS −75MB），(2) ログreserveの出発時右サイズ化（上界 total_timesteps − timestep + 1 を導出，realloc 0回を計測で確認。VmPeak −417MB），(3) 経路選択バッファのWorld共有化（並列化時はthread_local化する旨をヘッダに注記）
+- スキップ2項目: _traveled_nodes（約320KBで計測フロア未満），SIMD car_follow（gatherアクセスでROI不足）
+- ゲート: det_suite 10/10ビット同一，テスト211件通過。heavy build 0.125→0.078s，total 中央値2.32→1.90s，exec非退行（1.81〜1.83sで安定），log_heavy改善（logbuild 1.43→1.28s）
 
 ## 9. 参考資料
 
