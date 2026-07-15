@@ -100,3 +100,12 @@ mainのmain_loopは既に以下のステージ構造を持つ:
 - ゲート: det_suiteグループA 7/7ビット同一，グループB 3/3 FAIL（RNG実現値変化，想定通り），stat_suite OVERALL PASS（heavy ttt p=0.523/signal ttt p=0.373，cross≒within），テスト211件通過（調整なし），ベンチ非退行（インターリーブ3ラウンド median-of-medians +0.58%，ノイズ内）
 - 新リファレンス `baseline_det_aos_p1.json` 記録（自己一致10/10）
 - Phase 2への申し送り: ホットパスの統計加算（`link_ave_v_sum[link->id] +=`）はRUN per-link化の際にリンクローカルへホイストしてflush一回化するのが自然．`Link::arrived_vehicles`はRUNパス（link専有）がpush・transferがdrainの構造で並列化時も競合なし
+
+### Phase 2 完了（2026-07-15, コミット bd7d434）
+
+- ステージ分割: 旧car_follow_newellパス＋Vehicle::updateパス（update_order id順）を **RUN融合パス（per-link, dequeスナップショットのfront-to-back走査，キュー位置導出leader= snapshot[i-lanes]）** / **WAITログパス（per-node generation_queue走査）** / **HOME出発バケットパス（departure_buckets[timestep], id昇順）** に置換．Vehicle::update()・car_follow_newell()・update_orderを削除．統計加算はリンクローカルにホイストしflush一回化
+- log_s判別則: `leader_id < self_id ? 移動後x : x_old`，lower-id leaderが同stepでEND/ABORTならspacing=-1．car_followのleader位置はx_old（front-to-backで移動済みleaderの移動前x）＝旧コードの読み値と同値で順序非依存
+- end_trip分析: car_followのgap上限によりリンク先頭車のみx==length到達可能で，step当りend_tripは高々1台＋先頭連続カスケード．front-to-back走査で旧セマンティクス保存
+- ゲート: det_suite **10/10ビット同一**（グループBも一致——リンク当りRNG消費者が先頭到達車1台のみのため消費順不変），stat_suite全PASS，テスト211件通過，ベンチ**−14.8%**（インターリーブ3ラウンド，heavy exec中央値 2.192→1.868s，レンジ重複なし．融合パスによる簿記除去とdeque連続走査の局所性向上）
+- 新リファレンス `baseline_det_aos_p2.json`（自己一致10/10）
+- Phase 3への申し送り: run_snapshotスクラッチのthread_local化必須，WAITはper-node並列で安全（orig==自node），HOMEは直列維持，transferはomp single，例外は最小id優先の決定的再送出
