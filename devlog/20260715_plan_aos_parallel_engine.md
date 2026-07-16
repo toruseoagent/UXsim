@@ -126,6 +126,15 @@ mainのmain_loopは既に以下のステージ構造を持つ:
 - テスト追加: test_threads_parameter（threads=1/2/-1のビット同一＋不正値ValueError）→212件
 - ゲート: det_suite --threads 1/2/8 全て10/10 PASS，テスト212件通過，デフォルトオーバーヘッドなし（ノイズ内），スケーリング再現（threads=8でmainloop 4.00x，Phase 3計測と3%以内で整合）
 
+### Phase 6 完了（2026-07-16, コミット 559ee0b）ユーザー懸念による折衷変種
+
+- ユーザー懸念「走査の融合やvehicles_living/runningの削除はPython版ロジックとの乖離を生み，将来の機能追従で予想不能な困難をもたらす恐れ」を受け，性能を一部犠牲にしてPython構造対応を回復
+- 復元: `Vehicle::car_follow_newell()`（x_next計算のみの独立メソッド＋独立per-linkパス，leader->x直接読み），`Vehicle::update(snap_leader)`（HOME/WAIT/RUN/END状態分岐，uxsim.pyのVehicle.updateと対応），`Vehicle::log_data(snap_leader)`（判別則を内包），`vehicles_living`/`vehicles_running`（遷移をNode::running_gen_buf/Link::ended_bufに記録し，リージョン後の直列区間でid順適用．step終了時点の内容はPythonと同一）
+- 意図的に保持した並列化必須の差分: per-link分割走査，arrived_vehicles収集バッファ，RNGストリーム，統計部分和，transferのomp single，例外の決定的再送出
+- ゲート: threads 1/2/8で baseline_det_aos_p2.json と10/10ビット同一（グループB含む），テスト212件通過
+- 性能コスト（インターリーブ5ラウンド, 対122aef8）: heavy exec MoM **+21.1%**（ペアラウンド中央値+14.0%，+41%の外れラウンド1回含む）＝対fork mainではほぼパリティ〜+9%．mainloop 1T 1.206→1.410s，8T絶対値 0.327→0.362s（+11%）．スケーリング比は8Tで3.90xと維持
+- PR #341への反映はユーザー判断待ち（未反映）
+
 ### Phase 5 完了・プロジェクト検証完了（2026-07-15）
 
 - 総合検証全PASS。詳細と最終数値は `devlog/20260715_aos_parallel_completion_report.md` を参照
