@@ -155,6 +155,7 @@ PRを送信・更新する前に，以下を**必ず**実行すること（省�
 - **flakyテストが多いのでpytest-rerunfailuresを必ずインストール**．flakyテストには@pytest.mark.flaky(reruns=5)を必ずつける．rerunして成功すれば全く問題ないので，言及の必要もない
 - **リビルド→テスト**: `pip install -e . && python3 -m pytest tests/test_cpp_mode.py -q --tb=short`
 - **精密ベンチマークは1スレッドで10回計測**（中央値+std）．**cProfileでボトルネック特定**．cumtimeソート上位関数を見る
+- **バックグラウンド処理の完了待ちは `pgrep -f` で行わず，`run_in_background` の完了通知か完了マーカーファイルで検知する**（`pgrep -f` は待機コマンド自身のコマンドラインにも一致して永久に終わらない）
 
 ## これまでのコンテキスト
 
